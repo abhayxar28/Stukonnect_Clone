@@ -37,45 +37,41 @@ interface ApiError {
   error: string;
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request, context: any) {
   try {
-    // Await cookies() here
     const cookieStore = cookies();
-    
-    // Await params.id here as well
-    const { id } = (await params);
-    // Use supabase client with the awaited cookies
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-    
-    const { data: mentor, error } = await supabase
-      .from("mentors")
-      .select("*")
-      .eq("id", id)  // Use the awaited params.id here
-      .single();
 
-    if (error) {
-      return NextResponse.json<ApiError>(
-        { error: "Failed to fetch mentor" },
-        { status: 500 }
+    // Get the mentor ID from the params safely
+    const mentorId = context?.params?.id;
+    if (!mentorId) {
+      return NextResponse.json(
+        { error: "Mentor ID is missing" },
+        { status: 400 }
       );
     }
 
-    if (!mentor) {
-      return NextResponse.json<ApiError>(
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+
+    const { data: mentor, error } = await supabase
+      .from("mentors")
+      .select("*")
+      .eq("id", mentorId)
+      .single();
+
+    if (error || !mentor) {
+      return NextResponse.json(
         { error: "Mentor not found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json<MentorResponse>(mentor);
+    return NextResponse.json(mentor);
   } catch (error) {
     console.error("Error in GET /api/mentors/[id]:", error);
-    return NextResponse.json<ApiError>(
+    return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
     );
   }
 }
+

@@ -1,5 +1,6 @@
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
 
 interface BookingRequest {
   studentId: string;
@@ -31,73 +32,76 @@ interface Mentor {
     hobbies: string[];
     dayavailable: string[];
     timeslot: string[];
-    universitydetails: Array<{
+    experience: {
+      title: string;
+      organization: string;
+      duration: string;
+      description: string;
+    }[];
+    universitydetails: {
       universitylogo: string;
       universityName: string;
       scholarshipName: string;
       scholarshipPercent: string;
       aboutScholarship: string;
       courseName: string;
-    }>;
-    experience: Array<{
-      title: string;
-      organization: string;
-      duration: string;
-      description: string;
-    }>;
-  };
+    }[];
+  } | null;
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, context: any): Promise<NextResponse> {
   try {
-    const body: BookingRequest = await request.json();
-    const { studentId, date, time } = body;
-    const mentorId = params.id;
+    const supabase = createRouteHandlerClient({ cookies });
+    const body = (await request.json()) as BookingRequest;
 
-    // Check if student exists
-    const { data: student, error: studentError } = await supabase
-      .from("students")
-      .select("*")
-      .eq("id", studentId)
-      .single();
-
-    if (studentError) {
-      return NextResponse.json(
-        { error: "Student not found" },
-        { status: 404 }
-      );
+    // Get the mentor ID from the params safely
+    const mentorId = context?.params?.id;
+    if (!mentorId) {
+      return NextResponse.json({ error: "Mentor ID is missing" }, { status: 400 });
     }
 
-    // Check if mentor exists
+    // Get the mentor details
     const { data: mentor, error: mentorError } = await supabase
       .from("mentors")
       .select("*")
       .eq("id", mentorId)
       .single();
 
-    if (mentorError) {
+    if (mentorError || !mentor) {
       return NextResponse.json(
         { error: "Mentor not found" },
         { status: 404 }
       );
     }
 
-    // Create booking
+    // Get the student details
+    const { data: student, error: studentError } = await supabase
+      .from("students")
+      .select("*")
+      .eq("id", body.studentId)
+      .single();
+
+    if (studentError || !student) {
+      return NextResponse.json(
+        { error: "Student not found" },
+        { status: 404 }
+      );
+    }
+
+    // Create the booking
     const { data: booking, error: bookingError } = await supabase
       .from("bookings")
       .insert([
         {
-          student_id: studentId,
+          student_id: body.studentId,
           mentor_id: mentorId,
-          date,
-          time,
+          date: body.date,
+          time: body.time,
           status: "pending",
         },
       ])
-      .select();
+      .select()
+      .single();
 
     if (bookingError) {
       return NextResponse.json(
@@ -106,10 +110,11 @@ export async function POST(
       );
     }
 
-    return NextResponse.json(booking[0]);
+    return NextResponse.json(booking);
   } catch (error) {
+    console.error("Error in POST /api/mentors/[id]/book:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import MentorProfileSkeleton from "@/components/skeleton/MentorProfileSkeleton";
+import Image from "next/image";
 
 interface Mentor {
   id: string;
@@ -125,11 +126,15 @@ const MentorProfile = ({ mentor }: MentorProfileProps) => {
       {/* Left Column - Profile Info */}
       <div className="col-span-2">
         <div className="flex gap-6">
-      <img
-            src={mentorData.profilepic }
-        alt={mentorData.name}
-            className="w-48 h-48 rounded-lg object-cover bg-gray-100"
-          />
+          <div className="relative w-48 h-48">
+            <Image
+              src={mentorData.profilepic}
+              alt={mentorData.name}
+              fill
+              className="rounded-lg object-cover bg-gray-100"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
           <div className="flex-1">
             <h1 className="text-3xl font-bold">{mentorData.name}</h1>
             <p className="text-gray-600 mt-1">Junior at {aboutData?.universitydetails[0].universityName}</p>

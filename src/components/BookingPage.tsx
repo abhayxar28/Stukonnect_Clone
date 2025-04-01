@@ -12,7 +12,7 @@ interface Mentor {
   universityLogo?: string;
   scholarshipName?: string;
   country: string;
-  price: Number;
+  price: number;
   profilepic?: string;
   about: {
     tags: string[];
@@ -52,6 +52,7 @@ interface BookingFormData {
   cardExpiry: string;
   cardCVV: string;
   cardName: string;
+  price: number;
 }
 
 interface DateInfo {
@@ -111,6 +112,7 @@ const BookingPage = () => {
     cardExpiry: "",
     cardCVV: "",
     cardName: "",
+    price: 0,
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [mentor, setMentor] = useState<Mentor | null>(null);

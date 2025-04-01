@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Mentor {
   id: string;
@@ -63,11 +64,13 @@ export default function MentorsCard() {
       {mentors.map((mentor) => (
         <Link key={mentor.id} href={`/mentors/${mentor.id}`} className="block w-[250px]">
           <div className="bg-white p-4 shadow-xl rounded-lg flex flex-col items-center text-center justify-center cursor-pointer hover:shadow-orange-500 hover:scale-105 transition-transform duration-300 h-[450px]">
-            <div className="w-40 h-40 rounded-xl overflow-hidden">
-              <img
+            <div className="relative w-40 h-40 rounded-xl overflow-hidden">
+              <Image
                 src={mentor.profilepic}
                 alt={mentor.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
             <h2 className="text-lg font-semibold mt-4">{mentor.name}</h2>
@@ -76,11 +79,13 @@ export default function MentorsCard() {
               mentor.about.universitydetails.map((university, index) => (
                 <div key={index} className="mt-2 flex justify-center items-center flex-col w-full">
                   {university.universitylogo && (
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                      <img
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                      <Image
                         src={university.universitylogo}
                         alt="University Logo"
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="40px"
                       />
                     </div>
                   )}

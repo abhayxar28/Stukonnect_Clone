@@ -1,4 +1,3 @@
-
 import { gabarito } from "@/lib/fonts";
 import EmptyButton from "../buttons/emptyButton";
 import { TimelineComponent } from "@/components/ui/timelineComponent";
@@ -7,6 +6,7 @@ import { CarouselCard } from "@/components/ui/CarouselCard";
 import ButtonComponent from "@/components/buttons/buttonComponent";
 import MentorsCard from '@/components/MentorsCard';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function MainComponent() {
     return (
@@ -25,16 +25,14 @@ export default function MainComponent() {
 
             <div className="px-8 sm:px-10 flex justify-center items-center mt-10">
                 <div className="bg-[#f5f5f5] p-3 rounded-xl border-gray-300">
-                    <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
-                        <Link href='https://stukonnect.beehiiv.com/' target="_blank" rel="noopener noreferrer">
-                            <img
-                                src="image1.png"
-                                alt="Landing page preview"
-                                className="aspect-[16/9] h-auto w-full object-cover"
-                                height={1000}
-                                width={1000}
-                            />
-                        </Link>
+                    <div className="relative w-full h-full">
+                        <Image
+                            src="image1.png"
+                            alt="Landing page preview"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@ export default function MainComponent() {
                             src="image1.png"
                             alt="Landing page preview"
                             fill
-                            className="object-cover"
+                            className="aspect-[16/9] object-cover"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                     </div>

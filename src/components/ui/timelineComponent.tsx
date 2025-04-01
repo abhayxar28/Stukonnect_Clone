@@ -54,22 +54,22 @@ export function TimelineComponent() {
             others do the same—connecting dreams with real experiences. 🚀🌍
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden">
+            <div className="relative w-full h-[250px] sm:h-[500px]">
               <Image
                 src="img3.jpeg"
-                alt="hero template"
+                alt="Hero template"
                 fill
-                className="object-cover"
-                sizes="48px"
+                className="rounded-lg object-cover shadow-lg"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
-            <div className="relative w-12 h-12 rounded-full overflow-hidden">
+            <div className="relative w-full h-[250px] sm:h-[500px]">
               <Image
                 src="img4.jpeg"
-                alt="feature template"
+                alt="Feature template"
                 fill
-                className="object-cover"
-                sizes="48px"
+                className="rounded-lg object-cover shadow-lg"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           </div>

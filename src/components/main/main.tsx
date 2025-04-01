@@ -5,8 +5,6 @@ import { AccordionComponent } from "@/components/ui/shdcnComponents/AccordionCom
 import { CarouselCard } from "@/components/ui/CarouselCard";
 import ButtonComponent from "@/components/buttons/buttonComponent";
 import MentorsCard from '@/components/MentorsCard';
-import Link from "next/link";
-import Image from "next/image";
 
 export default function MainComponent() {
     return (
@@ -26,10 +24,9 @@ export default function MainComponent() {
             <div className="px-8 sm:px-10 flex justify-center items-center mt-10">
                 <div className="bg-[#f5f5f5] p-3 rounded-xl border-gray-300">
                     <div className="relative w-full h-full">
-                        <Image
+                        <img
                             src="image1.png"
                             alt="Landing page preview"
-                            fill
                             className="aspect-[16/9] object-cover"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
@@ -41,11 +38,11 @@ export default function MainComponent() {
                 <h1 className="text-4xl sm:text-5xl font-bold font-[Roboto] text-center">
                     Featured Mentors
                 </h1>
-                <div className="text-sm sm:text-base text-gray-600 pt-2">
+                <div className="text-sm sm:text-base text-gray-600 pt-2 px-2">
                     <span>Learn from students who've successfully navigated their study abroad journey</span>
                 </div>
                 <div className="mt-8 sm:mt-10 w-full overflow-hidden h-full mb-2">
-                    <div className="flex animate-scroll gap-6 w-max">
+                    <div className="flex animate-scroll gap-6 w-max h-max">
                         {[...Array(5)].map((_, i) => (
                             <MentorsCard key={i} />
                         ))}
@@ -62,7 +59,7 @@ export default function MainComponent() {
                     <h1 className="text-3xl sm:text-4xl font-bold text-center">
                         Stuff you might want to know 👇
                     </h1>
-                    <div className="mt-10 w-full sm:w-[60%] md:w-[40%]">
+                    <div className="mt-20 w-full sm:w-[60%] md:w-[40%]">
                         <AccordionComponent />
                     </div>
                 </div>

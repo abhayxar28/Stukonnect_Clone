@@ -1,5 +1,4 @@
 import { Timeline } from "@/components/ui/timeline";
-import Image from "next/image";
 
 export function TimelineComponent() {
   const data = [
@@ -55,21 +54,17 @@ export function TimelineComponent() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="relative w-full h-[250px] sm:h-[500px]">
-              <Image
+              <img
                 src="img3.jpeg"
                 alt="Hero template"
-                fill
-                className="rounded-lg object-cover shadow-lg"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="rounded-lg object-cover shadow-lg w-full h-full"
               />
             </div>
             <div className="relative w-full h-[250px] sm:h-[500px]">
-              <Image
+              <img
                 src="img4.jpeg"
                 alt="Feature template"
-                fill
-                className="rounded-lg object-cover shadow-lg"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="rounded-lg object-cover shadow-lg w-full h-full"
               />
             </div>
           </div>

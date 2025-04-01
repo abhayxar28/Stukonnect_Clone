@@ -1,5 +1,6 @@
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
 
 interface MentorResponse {
   id: string;
@@ -15,25 +16,25 @@ interface MentorResponse {
     hobbies: string[];
     dayavailable: string[];
     timeslot: string[];
-    universitydetails: Array<{
+    experience: {
+      title: string;
+      organization: string;
+      duration: string;
+      description: string;
+    }[];
+    universitydetails: {
       universitylogo: string;
       universityName: string;
       scholarshipName: string;
       scholarshipPercent: string;
       aboutScholarship: string;
       courseName: string;
-    }>;
-    experience: Array<{
-      title: string;
-      organization: string;
-      duration: string;
-      description: string;
-    }>;
-  };
+    }[];
+  } | null;
 }
 
 interface ApiError {
-  message: string;
+  error: string;
 }
 
 export async function GET(
@@ -41,21 +42,39 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { data, error } = await supabase
+    // Await cookies() here
+    const cookieStore = cookies();
+    
+    // Await params.id here as well
+    const { id } = (await params);
+    // Use supabase client with the awaited cookies
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    
+    const { data: mentor, error } = await supabase
       .from("mentors")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)  // Use the awaited params.id here
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json<ApiError>(
+        { error: "Failed to fetch mentor" },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json(data as MentorResponse);
+    if (!mentor) {
+      return NextResponse.json<ApiError>(
+        { error: "Mentor not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json<MentorResponse>(mentor);
   } catch (error) {
-    const apiError = error as ApiError;
-    return NextResponse.json(
-      { error: apiError.message || "Internal Server Error" },
+    console.error("Error in GET /api/mentors/[id]:", error);
+    return NextResponse.json<ApiError>(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

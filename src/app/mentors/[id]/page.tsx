@@ -8,7 +8,7 @@ export default function Mentor(){
             <div>
                 <Navbar/>
             </div>
-            <div className="mt-3">
+            <div className="mt-20">
                 <MentorProfile/>
             </div>
             <div className="mt-6">

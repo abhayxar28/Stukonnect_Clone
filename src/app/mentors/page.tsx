@@ -8,10 +8,10 @@ export default function Mentors(){
             <div>
                 <Navbar />
             </div>
-            <div className="flex justify-center items-center">
-                <h1 className="text-6xl font-bold text-center my-5">The Mentors</h1>
+            <div className="flex justify-center items-center mt-15 ">
+                <h1 className="text-6xl font-bold text-center">The Mentors</h1>
             </div>
-            <div className="px-20 my-20">
+            <div className="py-20 px-25">
                 <MentorCard/>   
             </div>
             <div className="mt-10">

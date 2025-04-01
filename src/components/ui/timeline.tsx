@@ -1,10 +1,5 @@
 "use client";
-import {
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  motion,
-} from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
 interface TimelineEntry {
@@ -38,8 +33,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
       ref={containerRef}
     >
       <div className="max-w-7xl mx-auto pt-10 px-4 md:px-8 lg:px-10">
-        <h2 className="text-lg md:text-6xl mb-4 text-black font-bold dark:text-white max-w-4xl">
-          Our <span className="text-[#ed7234]">Mission</span> 
+        <h2 className="text-2xl md:text-6xl mb-4 text-black font-bold dark:text-white max-w-4xl">
+          Our <span className="text-[#ed7234]">Mission</span>
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
           Empowering students with the right guidance to achieve their dream university. 🎓🚀
@@ -65,7 +60,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500">
                 {item.title}
               </h3>
-              {item.content}{" "}
+              {item.content}
             </div>
           </div>
         ))}

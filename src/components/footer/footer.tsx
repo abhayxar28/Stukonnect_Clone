@@ -14,7 +14,7 @@ export default function Footer() {
                         <span className="text-[#706e6e] font-bold text-md">COMPANY</span>
                     </div>
                     <div className="flex flex-col gap-1.5 text-sm">
-                        <a href="/mentor">The Mentors</a>
+                        <a href="/mentors">The Mentors</a>
                         <a href="/contact">Contact Us</a>
                         <a href="">Legal</a>
                     </div>
@@ -25,7 +25,7 @@ export default function Footer() {
                     <div>
                         <span className="text-[#706e6e] font-bold text-md">SOCIAL</span>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2">
                         <InstagramIcon />
                         <YoutubeIcon />
                         <LinkedInIcon />
@@ -45,7 +45,7 @@ export default function Footer() {
                         <div className="flex flex-col sm:flex-row gap-3 pt-3">
                             <input 
                                 type="text" 
-                                className="p-2 w-full sm:w-60 rounded-md border border-gray-300" 
+                                className="p-2 w-full sm:w-60 rounded-md border border-white" 
                                 placeholder="email@provider.com"
                             />
                             <button className="bg-[#ed7234] text-white rounded-md px-6 py-2 text-sm">
@@ -57,7 +57,7 @@ export default function Footer() {
             </div>
 
             {/* Footer Bottom */}
-            <div className="bg-[#ed7234] text-white px-5 py-4 text-center text-sm">
+            <div className="bg-[#ed7234] text-white px-5 py-4 text-sm">
                 StuKonnect © 2025
             </div>
         </div>

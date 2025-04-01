@@ -11,8 +11,8 @@ interface Experience {
 }
 
 interface UniversityDetails {
-  universitylogo:string;
-  universityName:string;
+  universitylogo: string;
+  universityName: string;
   scholarshipName: string;
   scholarshipPercent: string;
   aboutScholarship: string;
@@ -77,45 +77,71 @@ export default function AddMentorPage() {
       
       // Handle nested paths
       const path = name.split('.');
-      let current: any = updatedData;
+      let current: Record<string, unknown> = updatedData;
       
       // Traverse the path except for the last key
       for (let i = 0; i < path.length - 1; i++) {
-        current = current[path[i]];
+        current = current[path[i]] as Record<string, unknown>;
       }
       
       // Set the value at the final key
       current[path[path.length - 1]] = value;
       
-      return updatedData;
+      return updatedData as FormData;
     });
   };
 
   const addField = (field: string, index: number) => {
     setFormData((prevData) => {
       const keys = field.split(".");
-      const updatedData = JSON.parse(JSON.stringify(prevData)); // Deep copy
-      let ref = updatedData;
+      const updatedData = JSON.parse(JSON.stringify(prevData));
+      let current: Record<string, unknown> = updatedData;
+      
+      // Traverse to the parent object
       for (let i = 0; i < keys.length - 1; i++) {
-        ref = ref[keys[i]];
+        current = current[keys[i]] as Record<string, unknown>;
       }
-      ref[keys[keys.length - 1]].splice(index + 1, 0, ""); // Insert new field at index + 1
-      return updatedData;
+      
+      const lastKey = keys[keys.length - 1];
+      const lastValue = current[lastKey] as unknown[];
+      
+      if (Array.isArray(lastValue)) {
+        if (typeof lastValue[0] === 'string') {
+          lastValue.splice(index + 1, 0, "");
+        } else {
+          // Handle object arrays like universitydetails and experience
+          const firstItem = lastValue[0] as Record<string, unknown>;
+          const emptyObj = Object.keys(firstItem).reduce((acc, key) => {
+            acc[key] = "";
+            return acc;
+          }, {} as Record<string, unknown>);
+          lastValue.splice(index + 1, 0, emptyObj);
+        }
+      }
+      
+      return updatedData as FormData;
     });
   };
 
   const removeField = (field: string, index: number) => {
     setFormData((prevData) => {
       const keys = field.split(".");
-      const updatedData = JSON.parse(JSON.stringify(prevData)); // Deep copy
-      let ref = updatedData;
+      const updatedData = JSON.parse(JSON.stringify(prevData));
+      let current: Record<string, unknown> = updatedData;
+      
+      // Traverse to the parent object
       for (let i = 0; i < keys.length - 1; i++) {
-        ref = ref[keys[i]];
+        current = current[keys[i]] as Record<string, unknown>;
       }
-      if (ref[keys[keys.length - 1]].length > 1) {
-        ref[keys[keys.length - 1]].splice(index, 1);
+      
+      const lastKey = keys[keys.length - 1];
+      const lastValue = current[lastKey] as unknown[];
+      
+      if (lastValue.length > 1) {
+        lastValue.splice(index, 1);
       }
-      return updatedData;
+      
+      return updatedData as FormData;
     });
   };
 

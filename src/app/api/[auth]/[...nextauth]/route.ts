@@ -1,9 +1,21 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { supabase } from "@/lib/supabase";
 import bcrypt from "bcryptjs";
+import { User } from "@/types";
 
-export const authOptions: AuthOptions = {
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name: string;
+      role?: string;
+    }
+  }
+}
+
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -63,18 +75,24 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }: { token: any, user: any }) {
-      if (user && 'role' in user) {
-        token.role = user.role;
+    async signIn({ user }) {
+      if (user.email === "admin@stukonnect.com") {
+        return true;
       }
-      return token;
+      return false;
     },
-    async session({ session, token }: { session: any, token: any }) {
-      if (session?.user) {
-        session.user.role = token.role;
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as string;
       }
       return session;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.email === "admin@stukonnect.com" ? "admin" : "user";
+      }
+      return token;
+    }
   },
   pages: {
     signIn: "/auth/signin",

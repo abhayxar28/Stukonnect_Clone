@@ -1,10 +1,12 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "react/no-unescaped-entities": "off",
     "@next/next/no-img-element": "warn",
-    "@typescript-eslint/no-wrapper-object-types": "warn"
+    "@typescript-eslint/no-wrapper-object-types": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "@next/next/no-html-link-for-pages": "error"
   }
 } 

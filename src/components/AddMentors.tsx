@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Mentor } from "@/types";
 
 interface Experience {
   title: string;
@@ -29,14 +30,8 @@ interface AboutSection {
   universitydetails: UniversityDetails[];
 }
 
-interface FormData {
-  email: string;
+interface FormData extends Omit<Mentor, 'id'> {
   password: string;
-  name: string;
-  country: string;
-  profilepic: string;
-  price: string;
-  about: AboutSection;
 }
 
 export default function AddMentorPage() {
@@ -47,7 +42,7 @@ export default function AddMentorPage() {
     name: "",
     country: "",
     profilepic: "",
-    price: "",
+    price: 0,
     about: {
       tags: [""],
       description: [""],
@@ -55,10 +50,10 @@ export default function AddMentorPage() {
       hobbies: [""],
       dayavailable: [""],
       timeslot: [""],
-      universitydetails:[{
-        universitylogo:"",
+      universitydetails: [{
+        universitylogo: "",
+        universityName: "",
         scholarshipName: "",
-        universityName:"",
         scholarshipPercent: "",
         aboutScholarship: "",
         courseName: ""
@@ -134,7 +129,7 @@ export default function AddMentorPage() {
         },
         body: JSON.stringify({
           ...formData,
-          price: parseFloat(formData.price) || 0
+          price: parseFloat(formData.price.toString()) || 0
         }),
       });
 
@@ -143,17 +138,15 @@ export default function AddMentorPage() {
         throw new Error(error.error || 'Failed to add mentor');
       }
 
-      const data = await response.json();
       setShowAlert(true);
-      // Reset form after 3 seconds
       setTimeout(() => {
-      setFormData({
-        email: "",
-        password: "",
-        name: "",
+        setFormData({
+          email: "",
+          password: "",
+          name: "",
           country: "",
           profilepic: "",
-          price: "",
+          price: 0,
           about: {
             tags: [""],
             description: [""],
@@ -162,9 +155,9 @@ export default function AddMentorPage() {
             dayavailable: [""],
             timeslot: [""],
             universitydetails: [{
-        universityName: "",
               universitylogo: "",
-        scholarshipName: "",
+              universityName: "",
+              scholarshipName: "",
               scholarshipPercent: "",
               aboutScholarship: "",
               courseName: ""
@@ -177,7 +170,7 @@ export default function AddMentorPage() {
             }]
           },
         });
-        router.push('/mentors')
+        router.push('/mentors');
         setShowAlert(false);
       }, 3000);
     } catch (error) {

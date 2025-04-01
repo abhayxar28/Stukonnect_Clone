@@ -12,7 +12,7 @@ interface Mentor {
   universityLogo?: string;
   scholarshipName?: string;
   country: string;
-  price: Number;
+  price: number;
   profilepic?: string;
   about: {
     tags: string[];
@@ -39,10 +39,46 @@ interface Mentor {
   } | null;
 }
 
-const MentorProfile = () => {
+interface FetchError {
+  message: string;
+}
+
+interface MentorProfileProps {
+  mentor: {
+    id: string;
+    name: string;
+    country: string;
+    profilepic: string;
+    price: number;
+    about: {
+      tags: string[];
+      description: string[];
+      academicAchievements: string[];
+      hobbies: string[];
+      dayavailable: string[];
+      timeslot: string[];
+      universitydetails: Array<{
+        universitylogo: string;
+        universityName: string;
+        scholarshipName: string;
+        scholarshipPercent: string;
+        aboutScholarship: string;
+        courseName: string;
+      }>;
+      experience: Array<{
+        title: string;
+        organization: string;
+        duration: string;
+        description: string;
+      }>;
+    };
+  };
+}
+
+const MentorProfile = ({ mentor }: MentorProfileProps) => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const [mentor, setMentor] = useState<Mentor | null>(null);
+  const [mentorData, setMentorData] = useState<Mentor | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -58,9 +94,10 @@ const MentorProfile = () => {
           throw new Error(data.error || "Failed to fetch mentor.");
         }
 
-        setMentor(data);
-      } catch (err: any) {
-        setError(err.message);
+        setMentorData(data);
+      } catch (error) {
+        const fetchError = error as FetchError;
+        setError(fetchError.message);
       } finally {
         setLoading(false);
       }
@@ -71,9 +108,9 @@ const MentorProfile = () => {
 
   if (loading) return <MentorProfileSkeleton />;
   if (error) return <p className="text-center text-red-500 mt-10">❌ {error}</p>;
-  if (!mentor) return null;
+  if (!mentorData) return null;
 
-  const aboutData = mentor.about;
+  const aboutData = mentorData.about;
 
   const expertiseAreas = [
     "Scholarship Applications",
@@ -89,18 +126,18 @@ const MentorProfile = () => {
       <div className="col-span-2">
         <div className="flex gap-6">
       <img
-            src={mentor.profilepic }
-        alt={mentor.name}
+            src={mentorData.profilepic }
+        alt={mentorData.name}
             className="w-48 h-48 rounded-lg object-cover bg-gray-100"
           />
           <div className="flex-1">
-            <h1 className="text-3xl font-bold">{mentor.name}</h1>
+            <h1 className="text-3xl font-bold">{mentorData.name}</h1>
             <p className="text-gray-600 mt-1">Junior at {aboutData?.universitydetails[0].universityName}</p>
             <p className="text-gray-600">Studying {aboutData?.universitydetails[0].courseName || "Computer Science"}</p>
             
             <div className="flex items-center gap-2 mt-2">
               <span className="mx-1">🎖</span>
-              <span className="text-gray-600">{mentor.scholarshipName || "Gates Millennium Scholarship"} Recipient</span>
+              <span className="text-gray-600">{mentorData.scholarshipName || "Gates Millennium Scholarship"} Recipient</span>
             </div>
 
             <div className="flex flex-wrap gap-2 mt-4">
@@ -118,9 +155,9 @@ const MentorProfile = () => {
 
       {/* About Section */}
         <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">About {mentor.name.split(" ")[0]}</h2>
+          <h2 className="text-2xl font-bold mb-4">About {mentorData.name.split(" ")[0]}</h2>
           <div className="space-y-4 text-gray-600">
-            <p>{aboutData?.description?.[0] || `Hey there! I'm ${mentor.name.split(" ")[0]}, a junior at ${mentor.universityName} studying Computer Science with a minor in Education. I was fortunate to receive the Gates Scholarship which covers my full tuition and expenses.`}</p>
+            <p>{aboutData?.description?.[0] || `Hey there! I'm ${mentorData.name.split(" ")[0]}, a junior at ${mentorData.universityName} studying Computer Science with a minor in Education. I was fortunate to receive the Gates Scholarship which covers my full tuition and expenses.`}</p>
             
             <p>I remember how overwhelming the college application process was, especially as a first-generation college student from a public high school. I spent countless hours researching scholarships, perfecting my essays, and preparing for interviews.</p>
             
@@ -267,13 +304,13 @@ const MentorProfile = () => {
         <div className="bg-white rounded-lg border p-6 sticky top-6">
           <h2 className="text-2xl font-bold mb-2">Book a Session</h2>
           <p className="text-gray-600 mb-6">
-            Get guidance from {mentor.name.split(" ")[0]} on your college and scholarship applications
+            Get guidance from {mentorData.name.split(" ")[0]} on your college and scholarship applications
           </p>
 
           <div className="flex justify-between items-center mb-6">
             <span className="text-lg font-medium">Session Rate</span>
             <span className="text-2xl font-bold">
-            ₹{mentor.price.toString()}/-
+            ₹{mentorData.price.toString()}/-
             </span>
           </div>
 
@@ -320,7 +357,7 @@ const MentorProfile = () => {
                 <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                <div className="font-semibold">{mentor.universityName || "Stanford"}</div>
+                <div className="font-semibold">{mentorData.universityName || "Stanford"}</div>
                 <div className="text-sm text-gray-500">University</div>
               </div>
               <div className="text-center">

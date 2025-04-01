@@ -9,6 +9,8 @@ interface FormData {
   email: string;
   phone_number: string;
   password: string;
+  country?: string;
+  profilePic?: string;
 }
 
 interface FormErrors {
@@ -17,6 +19,15 @@ interface FormErrors {
   phone_number?: string;
   password?: string;
   general?: string;
+}
+
+interface SignUpError {
+  message: string;
+}
+
+interface SignUpResponse {
+  ok?: boolean;
+  error?: string;
 }
 
 export default function SignUpComponent() {
@@ -82,51 +93,37 @@ export default function SignUpComponent() {
     return isValid;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      try {
-        setIsLoading(true);
-        setErrors(prev => ({ ...prev, general: "" }));
+    setIsLoading(true);
+    setErrors(prev => ({ ...prev, general: "" }));
 
-        // ✅ Send email instead of username
-        const signupData = {
-          name: formData.name.trim(),
-          email: formData.email.trim().toLowerCase(), // ✅ Send email instead of username
-          phoneNumber: formData.phone_number.trim(),
-          password: formData.password
-        };
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-        console.log("Sending signup data:", signupData);
+      const result: SignUpResponse = await response.json();
 
-        const response = await fetch("/api/auth/signup", { // ✅ Fixed API path
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(signupData),
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          console.error("API Error:", result);
-          throw new Error(result.error || "Failed to create admin account");
-        }
-
-        alert("Admin account created successfully! Please check your email for verification.");
-        router.push('/auth/signin');
-
-      } catch (error: any) {
-        console.error("Signup error:", error);
-        setErrors(prev => ({
-          ...prev,
-          general: error.message || "An unexpected error occurred. Please try again."
-        }));
-      } finally {
-        setIsLoading(false);
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to create account");
       }
+
+      if (result.ok) {
+        router.replace("/auth/signin");
+      }
+    } catch (error) {
+      const signUpError = error as SignUpError;
+      setErrors(prev => ({
+        ...prev,
+        general: signUpError.message || "An error occurred during sign up"
+      }));
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -1,27 +1,62 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+interface MentorResponse {
+  id: string;
+  email: string;
+  name: string;
+  country: string;
+  profilepic: string;
+  price: number;
+  about: {
+    tags: string[];
+    description: string[];
+    academicAchievements: string[];
+    hobbies: string[];
+    dayavailable: string[];
+    timeslot: string[];
+    universitydetails: Array<{
+      universitylogo: string;
+      universityName: string;
+      scholarshipName: string;
+      scholarshipPercent: string;
+      aboutScholarship: string;
+      courseName: string;
+    }>;
+    experience: Array<{
+      title: string;
+      organization: string;
+      duration: string;
+      description: string;
+    }>;
+  };
+}
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+interface ApiError {
+  message: string;
+}
+
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const  id  = (await params).id;
-
-    if (!id) {
-      return NextResponse.json({ error: "Mentor ID is required." }, { status: 400 });
-    }
-
-    const { data, error } = await supabase.from("mentors").select("*").eq("id", id).single();
+    const { data, error } = await supabase
+      .from("mentors")
+      .select("*")
+      .eq("id", params.id)
+      .single();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    if (!data) {
-      return NextResponse.json({ error: "Mentor not found." }, { status: 404 });
-    }
-
-    return NextResponse.json(data, { status: 200 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Something went wrong." }, { status: 500 });
+    return NextResponse.json(data as MentorResponse);
+  } catch (error) {
+    const apiError = error as ApiError;
+    return NextResponse.json(
+      { error: apiError.message || "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

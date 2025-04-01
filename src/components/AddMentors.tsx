@@ -30,21 +30,55 @@ interface AboutSection {
   universitydetails: UniversityDetails[];
 }
 
-interface FormData extends Omit<Mentor, 'id'> {
-  password: string;
+interface FormData {
+  name: string;
+  email: string;
+  country: string;
+  profilepic: string;
+  price: number;
+  about: {
+    tags: string[];
+    description: string[];
+    academicAchievements: string[];
+    hobbies: string[];
+    dayavailable: string[];
+    timeslot: string[];
+    universitydetails: Array<{
+      universitylogo: string;
+      universityName: string;
+      scholarshipName: string;
+      scholarshipPercent: string;
+      aboutScholarship: string;
+      courseName: string;
+    }>;
+    experience: Array<{
+      title: string;
+      organization: string;
+      duration: string;
+      description: string;
+    }>;
+  };
+}
+
+interface ApiError {
+  message: string;
+}
+
+interface ApiResponse {
+  error?: string;
+  message?: string;
 }
 
 export default function AddMentorPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
     name: "",
+    email: "",
     country: "",
     profilepic: "",
     price: 0,
     about: {
-      tags: [""],
+      tags: [],
       description: [""],
       academicAchievements: [""],
       hobbies: [""],
@@ -56,14 +90,14 @@ export default function AddMentorPage() {
         scholarshipName: "",
         scholarshipPercent: "",
         aboutScholarship: "",
-        courseName: ""
+        courseName: "",
       }],
       experience: [{
         title: "",
         organization: "",
         duration: "",
-        description: ""
-      }]
+        description: "",
+      }],
     },
   });
 
@@ -145,36 +179,33 @@ export default function AddMentorPage() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/mentors', {
-        method: 'POST',
+      const response = await fetch("/api/mentors", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          price: parseFloat(formData.price.toString()) || 0
-        }),
+        body: JSON.stringify(formData),
       });
 
+      const result: ApiResponse = await response.json();
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to add mentor');
+        throw new Error(result.error || "Failed to create mentor");
       }
 
       setShowAlert(true);
       setTimeout(() => {
         setFormData({
-          email: "",
-          password: "",
           name: "",
+          email: "",
           country: "",
           profilepic: "",
           price: 0,
           about: {
-            tags: [""],
+            tags: [],
             description: [""],
             academicAchievements: [""],
             hobbies: [""],
@@ -186,22 +217,23 @@ export default function AddMentorPage() {
               scholarshipName: "",
               scholarshipPercent: "",
               aboutScholarship: "",
-              courseName: ""
+              courseName: "",
             }],
             experience: [{
               title: "",
               organization: "",
               duration: "",
-              description: ""
-            }]
+              description: "",
+            }],
           },
         });
         router.push('/mentors');
         setShowAlert(false);
       }, 3000);
     } catch (error) {
-      console.error("Error adding mentor:", error);
-      alert(error instanceof Error ? error.message : 'Failed to add mentor');
+      const apiError = error as ApiError;
+      console.error("Error creating mentor:", apiError.message);
+      alert(apiError.message || 'Failed to add mentor');
     }
   };
 

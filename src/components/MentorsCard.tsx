@@ -6,19 +6,35 @@ import Link from "next/link";
 interface Mentor {
   id: string;
   name: string;
-  email: string;
   country: string;
   profilepic: string;
-  price: number | string;
+  price: number;
   about: {
     tags: string[];
     description: string[];
-    universitydetails: {
+    academicAchievements: string[];
+    hobbies: string[];
+    dayavailable: string[];
+    timeslot: string[];
+    universitydetails: Array<{
       universitylogo: string;
-      scholarshipName: string;
       universityName: string;
-    }[];
+      scholarshipName: string;
+      scholarshipPercent: string;
+      aboutScholarship: string;
+      courseName: string;
+    }>;
+    experience: Array<{
+      title: string;
+      organization: string;
+      duration: string;
+      description: string;
+    }>;
   };
+}
+
+interface FetchError {
+  message: string;
 }
 
 export default function MentorsCard() {
@@ -33,8 +49,9 @@ export default function MentorsCard() {
         if (!response.ok) throw new Error(data.error || "Failed to fetch mentors");
 
         setMentors(data.mentors);
-      } catch (error: any) {
-        console.error("Error fetching mentors:", error.message);
+      } catch (error) {
+        const fetchError = error as FetchError;
+        console.error("Error fetching mentors:", fetchError.message);
       }
     };
 

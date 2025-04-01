@@ -14,6 +14,10 @@ declare module "next-auth" {
   }
 }
 
+interface SignInError {
+  message: string;
+}
+
 export default function SignInComponent() {
   const router = useRouter();
   const routerRef = useRef(router);
@@ -31,42 +35,31 @@ export default function SignInComponent() {
     }
   }, [status, session]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-      try {
-        const res = await signIn("credentials", {
-          email: formData.email,
-          password: formData.password,
+    try {
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
         redirect: false,
-        });
+      });
 
-      console.log("Sign in response:", res);
-
-        if (res?.error) {
-        setError(res.error);
+      if (result?.error) {
+        setError(result.error);
         return;
       }
 
-      // Force session update to get latest user role
-      await update();
-      
-      // Use router.replace for client-side navigation
-      if (session?.user?.role === "admin") {
-        console.log("🔄 Redirecting to /addmentors...");
-        routerRef.current.replace("/addmentors");
-      } else {
-        console.log("🚫 Not an admin, staying on sign-in page.");
-        setError("Invalid email or password");
+      if (result?.ok) {
+        router.replace("/addmentors");
       }
-
-      } catch (error: any) {
-      console.error("Sign in error:", error);
-      setError(error.message || "An error occurred during sign-in.");
-      } finally {
-        setIsLoading(false);
+    } catch (error) {
+      const signInError = error as SignInError;
+      setError(signInError.message || "An error occurred during sign in");
+    } finally {
+      setIsLoading(false);
     }
   };
 

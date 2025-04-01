@@ -15,6 +15,22 @@ declare module "next-auth" {
   }
 }
 
+interface AdminUser {
+  id: string;
+  email: string;
+  name: string;
+  password: string;
+}
+
+interface Credentials {
+  email: string;
+  password: string;
+}
+
+interface AuthError {
+  message: string;
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -23,7 +39,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials: Credentials | undefined) {
         try {
           if (!credentials?.email || !credentials?.password) {
             console.log("Missing credentials");
@@ -66,7 +82,7 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("Authorization error:", error);
-          throw error;
+          throw error as AuthError;
         }
       },
     }),

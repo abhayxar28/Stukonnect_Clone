@@ -391,15 +391,15 @@ const BookingPage = () => {
                       <input
                         type="radio"
                         name="duration"
-                    value="30"
-                    defaultChecked={true}
+                        value="30"
+                        defaultChecked={true}
                         onChange={handleInputChange}
                         className="hidden"
                       />
-                  <div className="w-4 h-4 rounded-full bg-black border-black border-2" />
-                  <span>30 minutes session</span>
+                      <div className="w-4 h-4 rounded-full bg-black border-black border-2" />
+                      <span>30 minutes session</span>
                     </div>
-                <span className="font-semibold">₹{(Number(mentor.price)).toString()}/-</span>
+                    <span className="font-semibold">₹{mentor.price.toString()}/-</span>
                   </label>
               </div>
 

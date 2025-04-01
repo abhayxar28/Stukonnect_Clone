@@ -1,10 +1,8 @@
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import NextAuth from "next-auth";
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
   interface Session {
@@ -18,22 +16,6 @@ declare module "next-auth" {
   interface User {
     role: string;
   }
-}
-
-interface AdminUser {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-}
-
-interface Credentials {
-  email: string;
-  password: string;
-}
-
-interface AuthError {
-  message: string;
 }
 
 export const authOptions: AuthOptions = {
@@ -107,8 +89,4 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
-};
-
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+}; 

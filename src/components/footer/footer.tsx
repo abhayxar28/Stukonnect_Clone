@@ -2,6 +2,7 @@ import { gabarito } from "@/lib/fonts";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 import LinkedInIcon from "@/components/icons/LinkedInIcon";
 import YoutubeIcon from "@/components/icons/YoutubeIcon";
+import Link from "next/link";
 
 export default function Footer() {
     return (
@@ -14,9 +15,9 @@ export default function Footer() {
                         <span className="text-[#706e6e] font-bold text-md">COMPANY</span>
                     </div>
                     <div className="flex flex-col gap-1.5 text-sm">
-                        <a href="/mentors">The Mentors</a>
-                        <a href="/contact">Contact Us</a>
-                        <a href="">Legal</a>
+                        <Link href="/mentors" className="hover:text-orange-500 transition-colors">The Mentors</Link>
+                        <Link href="/contact" className="hover:text-orange-500 transition-colors">Contact Us</Link>
+                        <Link href="/legal" className="hover:text-orange-500 transition-colors">Legal</Link>
                     </div>
                 </div>
 

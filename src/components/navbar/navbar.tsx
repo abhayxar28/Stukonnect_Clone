@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from "next/image";
 
 export default function Navbar() {
     return (
@@ -7,13 +8,13 @@ export default function Navbar() {
                 <div className="flex justify-between h-16">
                     <div className="flex justify-between items-center w-full pt-20">
                         <div className="flex-shrink-0 flex justify-center items-center gap-2">
-                                <img
-                                    src="https://www.stukonnect.com/_next/image?url=%2Flogo-gradient-round.png&w=32&q=75"
-                                    alt="Logo"
-                                    width={40}
-                                    height={40}
-                                    className="h-8 w-auto"
-                                />
+                            <Image
+                                src="/logo.png"
+                                alt="Stukonnect Logo"
+                                width={40}
+                                height={40}
+                                className="w-10 h-10"
+                            />
                             <Link href="/">
                                 <span className='text-2xl font-black'>
                                     Stukonnect

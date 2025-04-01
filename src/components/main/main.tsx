@@ -5,6 +5,7 @@ import { AccordionComponent } from "@/components/ui/shdcnComponents/AccordionCom
 import { CarouselCard } from "@/components/ui/CarouselCard";
 import ButtonComponent from "@/components/buttons/buttonComponent";
 import MentorsCard from '@/components/MentorsCard';
+import Image from "next/image";
 
 export default function MainComponent() {
     return (
@@ -23,11 +24,12 @@ export default function MainComponent() {
 
             <div className="px-8 sm:px-10 flex justify-center items-center mt-10">
                 <div className="bg-[#f5f5f5] p-3 rounded-xl border-gray-300">
-                    <div className="relative w-full h-full">
-                        <img
-                            src="image1.png"
+                    <div className="relative w-full h-[400px] rounded-xl overflow-hidden">
+                        <Image
+                            src="/landing-page-preview.png"
                             alt="Landing page preview"
-                            className="aspect-[16/9] object-cover"
+                            fill
+                            className="object-cover"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                     </div>

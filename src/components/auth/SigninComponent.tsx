@@ -6,9 +6,9 @@ import { signIn, useSession } from "next-auth/react";
 declare module "next-auth" {
   interface Session {
     user: {
-      name?: string;
-      email?: string;
-      image?: string;
+      id: string;
+      email: string;
+      name: string;
       role: string;
     };
   }

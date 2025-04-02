@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mentor } from "@/types";
 
 interface Experience {
   title: string;

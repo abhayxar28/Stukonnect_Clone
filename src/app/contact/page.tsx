@@ -38,7 +38,7 @@ export default function Contact(){
                     <div>
                         Plus (if you care) you follow the journey of us building this :)
                     </div>
-                    <div className="flex items-center mt-2 mb-5">
+                    <div className="flex items-center mt-2 mb-20">
                         <InstagramIcon />
                         <LinkedInIcon />
                         <YoutubeIcon />

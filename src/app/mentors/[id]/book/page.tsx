@@ -8,7 +8,7 @@ export default function Book() {
             <div>
                 <Navbar />
             </div>
-            <div className="mt-4">
+            <div className="mt-15">
                 <BookingPage />
             </div>
             <div className="mt-6">

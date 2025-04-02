@@ -23,7 +23,7 @@ export default function MainComponent() {
 
             <div className="px-8 sm:px-10 flex justify-center items-center mt-10">
                 <div className="bg-[#f5f5f5] p-3 rounded-xl border-gray-300">
-                    <div className="relative w-full h-[400px] rounded-xl overflow-hidden">
+                    <div className="relative w-full h-full rounded-xl overflow-hidden">
                         <img
                             src="/image1.png"
                             alt="Landing page preview"
@@ -34,14 +34,14 @@ export default function MainComponent() {
                 </div>
             </div>
 
-            <div className="flex flex-col mt-20 justify-center items-center">
+            <div className="flex flex-col mt-20 justify-center items-center h-full pb-3">
                 <h1 className="text-4xl sm:text-5xl font-bold font-[Roboto] text-center">
                     Featured Mentors
                 </h1>
                 <div className="text-sm sm:text-base text-gray-600 pt-2 px-2">
                     <span>Learn from students who've successfully navigated their study abroad journey</span>
                 </div>
-                <div className="mt-8 sm:mt-10 w-full overflow-hidden h-full mb-2">
+                <div className="mt-8 sm:mt-10 w-full h-full">
                     <div className="flex animate-scroll gap-6 w-max h-max">
                         {[...Array(5)].map((_, i) => (
                             <MentorsCard key={i} />

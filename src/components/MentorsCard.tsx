@@ -80,22 +80,21 @@ export default function MentorsCard() {
     <div className="flex gap-6">
       {mentors.map((mentor) => (
         <Link key={mentor.id} href={`/mentors/${mentor.id}`} className="block w-[250px]">
-          <div className="bg-white p-4 shadow-xl rounded-lg flex flex-col items-center text-center justify-center cursor-pointer hover:shadow-orange-500 hover:scale-105 transition-transform duration-300 h-[450px]">
+          <div className="bg-white p-4 shadow-xl rounded-lg flex flex-col items-center text-center justify-center cursor-pointer hover:shadow-orange-500 hover:scale-105 transition-transform duration-300 h-[400px]">
             <div className="relative w-40 h-40 rounded-xl overflow-hidden">
               <img
                 src={mentor.profilepic}
                 alt={mentor.name}
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover w-full h-full"
               />
             </div>
-            <h2 className="text-lg font-semibold mt-4">{mentor.name}</h2>
+            <h2 className="text-lg font-semibold mt-4 mb-2">{mentor.name}</h2>
 
             {mentor.about?.universitydetails?.length ? (
               mentor.about.universitydetails.map((university, index) => (
                 <div key={index} className="mt-2 flex justify-center items-center flex-col w-full">
                   {university.universitylogo && (
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                    <div className="relative w-10 h-10 overflow-hidden">
                       <img
                         src={university.universitylogo}
                         alt="University Logo"
@@ -105,27 +104,14 @@ export default function MentorsCard() {
                     </div>
                   )}
                   <p className="text-sm text-gray-600 mt-1">{university.universityName}</p>
-                  <p className="text-sm text-gray-600">{university.scholarshipName}</p>
+                  <div className="border px-2 py-1 rounded-2xl mt-4">
+                    <p className="text-sm text-gray-600 font-bold">{university.scholarshipName}</p>
+                  </div>
                 </div>
               ))
             ) : (
               <p className="text-sm text-gray-600 mt-2">No university details available</p>
             )}
-
-            <div className="mt-4 flex flex-wrap gap-2 justify-center">
-              {mentor.about?.tags?.slice(0, 3).map((tag, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-4 text-lg font-bold text-orange-500">
-              ₹{mentor.price}/-
-            </div>
           </div>
         </Link>
       ))}

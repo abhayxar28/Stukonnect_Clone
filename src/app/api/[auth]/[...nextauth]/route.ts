@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import NextAuth from "next-auth";
 import bcrypt from "bcryptjs";
+import { NextRequest, NextResponse } from "next/server";
 
 // Verify environment variables
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY) {
@@ -14,7 +14,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
 );
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -29,12 +29,11 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          
           // Get user from database
           const { data: user, error: userError } = await supabase
-            .from('admin')
-            .select('*')
-            .eq('email', credentials.email)
+            .from("admin")
+            .select("*")
+            .eq("email", credentials.email)
             .single();
 
           if (userError) {
@@ -46,7 +45,6 @@ export const authOptions: NextAuthOptions = {
             console.error("User not found");
             return null;
           }
-
 
           // Verify password using bcrypt
           const isValidPassword = await bcrypt.compare(credentials.password, user.password);
@@ -93,5 +91,14 @@ export const authOptions: NextAuthOptions = {
   debug: true,
 };
 
+// Correctly export the NextAuth handler
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST }; 
+
+export async function GET(req: NextRequest) {
+  return handler(req, new NextResponse());
+}
+
+export async function POST(req: NextRequest) {
+  return handler(req, new NextResponse());
+}
+

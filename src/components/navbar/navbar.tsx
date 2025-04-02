@@ -9,7 +9,7 @@ export default function Navbar() {
                     <div className="flex justify-between items-center w-full pt-20">
                         <div className="flex-shrink-0 flex justify-center items-center gap-2">
                             <Image
-                                src="/logo.png"
+                                src="https://www.stukonnect.com/_next/image?url=%2Flogo-gradient-round.png&w=32&q=75"
                                 alt="Stukonnect Logo"
                                 width={40}
                                 height={40}

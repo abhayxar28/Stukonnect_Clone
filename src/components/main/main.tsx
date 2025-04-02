@@ -26,7 +26,7 @@ export default function MainComponent() {
                 <div className="bg-[#f5f5f5] p-3 rounded-xl border-gray-300">
                     <div className="relative w-full h-[400px] rounded-xl overflow-hidden">
                         <Image
-                            src="/image1.png"
+                            src="image1.png"
                             alt="Landing page preview"
                             fill
                             className="object-cover"

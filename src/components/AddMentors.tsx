@@ -197,9 +197,9 @@ export default function AddMentorPage() {
 
       setShowAlert(true);
       setTimeout(() => {
-        setFormData({
+      setFormData({
           name: "",
-          email: "",
+        email: "",
           country: "",
           profilepic: "",
           price: 0,
@@ -212,8 +212,8 @@ export default function AddMentorPage() {
             timeslot: [""],
             universitydetails: [{
               universitylogo: "",
-              universityName: "",
-              scholarshipName: "",
+        universityName: "",
+        scholarshipName: "",
               scholarshipPercent: "",
               aboutScholarship: "",
               courseName: "",

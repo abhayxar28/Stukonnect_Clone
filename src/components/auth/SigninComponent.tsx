@@ -27,11 +27,12 @@ export default function SignInComponent() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("Session status:", status, "Session data:", session);
+    console.log("Session status:", status);
+    console.log("Session data:", session);
 
     if (status === "authenticated" && session?.user?.role === "admin") {
       console.log("✅ User is authenticated and admin, redirecting...");
-      routerRef.current.replace("/addmentors");
+      routerRef.current.push("/addmentors");
     }
   }, [status, session]);
 
@@ -47,13 +48,16 @@ export default function SignInComponent() {
         redirect: false,
       });
 
+      console.log("Sign in result:", result);
+
       if (result?.error) {
         setError(result.error);
         return;
       }
 
       if (result?.ok) {
-        router.replace("/addmentors");
+        console.log("Sign in successful, updating session...");
+        await update();
       }
     } catch (error) {
       const signInError = error as SignInError;

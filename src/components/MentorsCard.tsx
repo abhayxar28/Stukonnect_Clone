@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface Mentor {
   id: string;
@@ -83,10 +82,9 @@ export default function MentorsCard() {
         <Link key={mentor.id} href={`/mentors/${mentor.id}`} className="block w-[250px]">
           <div className="bg-white p-4 shadow-xl rounded-lg flex flex-col items-center text-center justify-center cursor-pointer hover:shadow-orange-500 hover:scale-105 transition-transform duration-300 h-[450px]">
             <div className="relative w-40 h-40 rounded-xl overflow-hidden">
-              <Image
+              <img
                 src={mentor.profilepic}
                 alt={mentor.name}
-                fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
@@ -98,10 +96,9 @@ export default function MentorsCard() {
                 <div key={index} className="mt-2 flex justify-center items-center flex-col w-full">
                   {university.universitylogo && (
                     <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                      <Image
+                      <img
                         src={university.universitylogo}
                         alt="University Logo"
-                        fill
                         className="object-cover"
                         sizes="40px"
                       />

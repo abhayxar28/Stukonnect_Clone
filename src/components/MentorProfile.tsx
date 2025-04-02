@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import MentorProfileSkeleton from "@/components/skeleton/MentorProfileSkeleton";
-import Image from "next/image";
 
 interface Mentor {
   id: string;
@@ -127,10 +126,9 @@ const MentorProfile = () => {
       <div className="col-span-2">
         <div className="flex gap-6">
           <div className="relative w-40 h-40 rounded-xl overflow-hidden">
-            <Image
+            <img
               src={mentorData.profilepic}
               alt={mentorData.name}
-              fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />

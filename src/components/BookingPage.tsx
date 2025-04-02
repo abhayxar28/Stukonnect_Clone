@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import BookingPageSkeleton from "@/components/skeleton/BookingPageSkeleton";
-import Image from "next/image";
 
 interface Mentor {
   id: string;
@@ -752,10 +751,9 @@ const BookingPage = () => {
 
             <div className="flex items-center gap-4 mb-6">
               <div className="relative w-40 h-40 rounded-xl overflow-hidden">
-                <Image
+                <img
                   src={mentor.profilepic}
                   alt={mentor.name}
-                  fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />

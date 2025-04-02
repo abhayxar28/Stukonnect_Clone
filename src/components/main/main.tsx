@@ -71,7 +71,7 @@ export default function MainComponent() {
                         Dreaming of Your <span className="text-[#ed7234]">Dream University?</span> Let's Make It Happen!
                     </h1>
                 </div>
-                <div className="w-full flex justify-center flex-row mt-6 sm:mt-10">
+                <div className="w-full flex justify-center flex-row mt-3 sm:mt-10">
                     <CarouselCard />
                 </div>
                 <div className="my-6 sm:my-10">

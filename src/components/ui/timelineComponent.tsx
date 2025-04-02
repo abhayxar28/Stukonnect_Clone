@@ -56,7 +56,7 @@ export function TimelineComponent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="relative w-full h-[400px] rounded-xl overflow-hidden">
               <Image
-                src="/hero-template.png"
+                src="/img3.png"
                 alt="Hero template"
                 fill
                 className="object-cover"
@@ -65,7 +65,7 @@ export function TimelineComponent() {
             </div>
             <div className="relative w-full h-[400px] rounded-xl overflow-hidden">
               <Image
-                src="/feature-template.png"
+                src="/img4.png"
                 alt="Feature template"
                 fill
                 className="object-cover"
